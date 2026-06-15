@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Cart</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="navbar">
+    <a href="home.html">Home</a>
+    <a href="login.html">Login</a>
+    <a href="AddProduct.html">Add Products</a>
+    <a href="orders.html">Orders</a>
+    <a href="cart.html">Cart</a>
+    <a href="About.html">About Us</a>
+    <a href="ContactUS.html">Contact Us</a>
+</div>
+
+<div class="cart-main">
+    <h2>🛒My Cart</h2>
+
+    <table class="cart-table" id="cartTable">
+        <thead>
+            <tr>
+                <th>Item No</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Action</th>
+             </tr>
+        </thead>
+        <tbody id="cartBody">
+            <tr>
+                <td>1</td>
+                <td>Bridal Dress</td>
+                <td>
+                    <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+                    <span class="qty">1</span>
+                    <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+                 </td>
+                <td>$200</td>
+                <td>$200</td>
+                <td><button class="remove-btn" onclick="removeItem(this)">Remove</button></td>
+             </tr>
+             <tr>
+                <td>2</td>
+                <td>Party Wear</td>
+                <td>
+                    <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+                    <span class="qty">2</span>
+                    <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+                 </td>
+                <td>$150</td>
+                <td>$300</td>
+                <td><button class="remove-btn" onclick="removeItem(this)">Remove</button></td>
+             </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" style="text-align:right;"><strong>Grand Total</strong></td>
+                <td id="grandTotal">$500</td>
+                <td><button class="checkout-btn" onclick="checkout()">Checkout</button></td>
+             </tr>
+        </tfoot>
+     </table>
+</div>
+
+<div class="footer">
+    <p><b>Boutique Management System </b></p>
+    <p>Email: boutique@gmail.com | Islamabad, Pakistan</p>
+</div>
+
+<script>
+    // Change quantity function
+    function changeQty(btn, change) {
+        let row = btn.parentElement.parentElement;
+        let qtySpan = row.querySelector('.qty');
+        let currentQty = parseInt(qtySpan.innerHTML);
+        let newQty = currentQty + change;
+        
+        if (newQty < 1) {
+            return;
+        }
+        
+        qtySpan.innerHTML = newQty;
+        
+        // Update price and total
+        let priceCell = row.cells[3];
+        let price = parseInt(priceCell.innerHTML.replace('$', ''));
+        let totalCell = row.cells[4];
+        let newTotal = price * newQty;
+        totalCell.innerHTML = '$' + newTotal;
+        
+        updateGrandTotal();
+    }
+    
+    // Remove item function
+    function removeItem(btn) {
+        let row = btn.parentElement.parentElement;
+        row.remove();
+        updateItemNumbers();
+        updateGrandTotal();
+    }
+    
+    // Update item numbers after removal
+    function updateItemNumbers() {
+        let rows = document.querySelectorAll('#cartBody tr');
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].cells[0].innerHTML = i + 1;
+        }
+    }
+    
+    // Update grand total
+    function updateGrandTotal() {
+        let rows = document.querySelectorAll('#cartBody tr');
+        let total = 0;
+        
+        for (let i = 0; i < rows.length; i++) {
+            let totalCell = rows[i].cells[4];
+            let itemTotal = parseInt(totalCell.innerHTML.replace('$', ''));
+            total = total + itemTotal;
+        }
+        
+        document.getElementById('grandTotal').innerHTML = '$' + total;
+        
+        // If cart is empty
+        if (rows.length === 0) {
+            document.getElementById('grandTotal').innerHTML = '$0';
+        }
+    }
+    
+    // Checkout function
+    function checkout() {
+        let rows = document.querySelectorAll('#cartBody tr');
+        
+        if (rows.length === 0) {
+            alert('❌ Your cart is empty!');
+            return;
+        }
+        
+        let total = document.getElementById('grandTotal').innerHTML;
+        let message = '✅ Order Placed Successfully!\n\n';
+        message += 'Total Amount: ' + total + '\n\n';
+        message += 'We will contact you soon for delivery.';
+        
+        alert(message);
+    }
+</script>
+
+</body>
+</html>

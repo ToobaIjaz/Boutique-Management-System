@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Place Order - Boutique</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<div class="navbar">
+    <a href="home.html">Home</a>
+    <a href="login.html">Login</a>
+    <a href="AddProduct.html">Add Products</a>
+    <a href="orders.html">Orders</a>
+    <a href="cart.html">Cart</a>
+    <a href="About.html">About Us</a>
+    <a href="ContactUS.html">Contact Us</a>
+</div>
+
+<div class="orders-main">
+    <h2>🛍️ Place Your Order</h2>
+
+    <form id="orderForm" class="order-form">
+        <input type="text" id="customerName" placeholder="Your Full Name">
+        <input type="email" id="customerEmail" placeholder="Your Email">
+        <input type="text" id="customerPhone" placeholder="Phone Number">
+        <input type="text" id="dressName" placeholder="Dress Name">
+        <input type="number" id="quantity" placeholder="Quantity">
+        <textarea id="customerAddress" rows="3" placeholder="Address"></textarea>
+        
+        <div class="buttons">
+            <button type="submit" class="submit-btn">✅ Place Order</button>
+            <button type="button" class="reset-btn" onclick="clearForm()">🗑️ Clear Form</button>
+        </div>
+    </form>
+</div>
+
+<div class="footer">
+    <p><b>Boutique Management System</b></p>
+    <p>Email: boutique@gmail.com | Islamabad, Pakistan</p>
+</div>
+
+<script>
+    function clearForm() {
+        document.getElementById('customerName').value = '';
+        document.getElementById('customerEmail').value = '';
+        document.getElementById('customerPhone').value = '';
+        document.getElementById('dressName').value = '';
+        document.getElementById('quantity').value = '';
+        document.getElementById('customerAddress').value = '';
+    }
+    
+    document.getElementById('orderForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        let name = document.getElementById('customerName').value;
+        let email = document.getElementById('customerEmail').value;
+        let phone = document.getElementById('customerPhone').value;
+        let dress = document.getElementById('dressName').value;
+        let quantity = document.getElementById('quantity').value;
+        let address = document.getElementById('customerAddress').value;
+        
+        // Check if all fields are empty
+        if (name === '' && email === '' && phone === '' && dress === '' && quantity === '' && address === '') {
+            alert('❌ Please fill all fields!');
+            document.getElementById('customerName').focus();
+            return;
+        }
+        
+        // Field by field validation
+        if (name === '') {
+            alert('❌ Please enter your name!');
+            document.getElementById('customerName').focus();
+            return;
+        }
+        
+        if (email === '') {
+            alert('❌ Please enter your email!');
+            document.getElementById('customerEmail').focus();
+            return;
+        }
+        
+        if (phone === '') {
+            alert('❌ Please enter your phone number!');
+            document.getElementById('customerPhone').focus();
+            return;
+        }
+        
+        if (dress === '') {
+            alert('❌ Please enter dress name!');
+            document.getElementById('dressName').focus();
+            return;
+        }
+        
+        if (quantity === '') {
+            alert('❌ Please enter quantity!');
+            document.getElementById('quantity').focus();
+            return;
+        }
+        
+        if (address === '') {
+            alert('❌ Please enter delivery address!');
+            document.getElementById('customerAddress').focus();
+            return;
+        }
+        
+        // If all fields are filled
+        alert('✅ Order Placed Successfully!\n\n' +
+              'Customer: ' + name + '\n' +
+              'Dress: ' + dress + '\n' +
+              'Quantity: ' + quantity + '\n' +
+              'Address: ' + address + '\n\n' +
+              'We will contact you at ' + phone);
+        
+        clearForm();
+    });
+</script>
+
+</body>
+</html>
